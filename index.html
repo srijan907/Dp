@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp DP Changer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>ZAYNIX-XD-PROFILE</h1>
+    <h2>CREATOR ROMEK-XD</h2>
+    
+    <p>To set WhatsApp Profile Picture:</p>
+    <ol>
+        <li>Upload Image</li>
+        <li>Enter WhatsApp Number</li>
+        <li>Login using Linked Phone Number and Enter the Code</li>
+        <li>Wait</li>
+    </ol>
+    
+    <label for="imageUpload">Profile Photo</label>
+    <input type="file" id="imageUpload">
+    
+    <input type="text" id="whatsappNumber" placeholder="eg 919341xxxxxx">
+    <button onclick="getPairCode()">Login</button>
+    
+    <p id="pairCode"></p>
+    
+    <script>
+        async function getPairCode() {
+            const number = document.getElementById("whatsappNumber").value;
+            if (!number) {
+                alert("Please enter your WhatsApp number!");
+                return;
+            }
+            
+            let response = await fetch(`/getPairCode?number=${number}`);
+            let data = await response.json();
+            document.getElementById("pairCode").innerText = `Your Pair Code: ${data.code}`;
+        }
+    </script>
+</body>
+</html>
