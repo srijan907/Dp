@@ -1,32 +1,34 @@
 const express = require('express');
 const cors = require('cors');
-const multer = require('multer');
-const { getPairCode } = require('./api/pair');
-const { updateWhatsAppDP } = require('./api/updateDP');
+const bodyParser = require('body-parser');
 
 const app = express();
+const port = 3000;
+
+// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-const upload = multer({ dest: 'uploads/' });
-
-app.get('/getPairCode', async (req, res) => {
-    const whatsappNumber = req.query.number;
-    if (!whatsappNumber) {
-        return res.status(400).json({ error: "WhatsApp number is required" });
-    }
-    const pairCode = await getPairCode(whatsappNumber);
-    res.json({ code: pairCode });
+// Homepage Route
+app.get('/', (req, res) => {
+    res.send('🚀 Server is Running! WebPair API Connected.');
 });
 
-app.post('/uploadDP', upload.single('image'), async (req, res) => {
-    const whatsappNumber = req.body.number;
-    if (!whatsappNumber || !req.file) {
-        return res.status(400).json({ error: "WhatsApp number and image are required" });
+// Pair Code Generate Route
+app.post('/generate-pair', (req, res) => {
+    const { phone } = req.body;
+
+    if (!phone) {
+        return res.status(400).json({ error: 'WhatsApp number is required!' });
     }
-    const success = await updateWhatsAppDP(whatsappNumber, req.file.path);
-    res.json({ success });
+
+    // Generate a Random Pair Code (Example: 6-digit)
+    const pairCode = Math.floor(100000 + Math.random() * 900000);
+    
+    res.json({ phone, pairCode });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start Server
+app.listen(port, () => {
+    console.log(`✅ Server is running at http://localhost:${port}`);
+});
