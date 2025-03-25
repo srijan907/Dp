@@ -1,0 +1,26 @@
+body {
+    text-align: center;
+    background-color: #99ff33;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: blue;
+}
+
+h2 {
+    color: black;
+}
+
+button {
+    background: linear-gradient(to right, red, yellow);
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    margin: 10px;
+}
